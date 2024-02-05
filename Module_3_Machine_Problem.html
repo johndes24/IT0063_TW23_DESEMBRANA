@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .day-button {
+            padding: 10px;
+            margin: 0 10px; /* Added margin for spacing */
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+
+        #animated-box {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            transition: all 1s ease-in-out;
+            background-size: 400% 400%;
+            animation: iridescentColor 5s infinite alternate;
+        }
+
+        @keyframes iridescentColor {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+    </style>
+    <title>Button Animation</title>
+</head>
+<body>
+    <div class="button-container">
+        <button id="Monday" class="day-button" onclick="animateBox('Monday')">Monday</button>
+        <button id="Tuesday" class="day-button" onclick="animateBox('Tuesday')">Tuesday</button>
+        <button id="Wednesday" class="day-button" onclick="animateBox('Wednesday')">Wednesday</button>
+        <button id="Thursday" class="day-button" onclick="animateBox('Thursday')">Thursday</button>
+        <button id="Friday" class="day-button" onclick="animateBox('Friday')">Friday</button>
+        <button id="Saturday" class="day-button" onclick="animateBox('Saturday')">Saturday</button>
+        <button id="Sunday" class="day-button" onclick="animateBox('Sunday')">Sunday</button>
+    </div>
+
+    <div id="animated-box"></div>
+
+    <script>
+        function animateBox(day) {
+            const animatedBox = document.getElementById('animated-box');
+            const button = document.getElementById(day);
+
+            // Get the color of the clicked button
+            const buttonColor = window.getComputedStyle(button).backgroundColor;
+
+            // Get button position
+            const buttonRect = button.getBoundingClientRect();
+
+            // Set box initial position and color
+            animatedBox.style.left = buttonRect.left + 'px';
+            animatedBox.style.top = buttonRect.top + 'px';
+            animatedBox.style.backgroundColor = buttonColor;
+
+            // Show the box
+            animatedBox.style.opacity = 1;
+
+            // Set box final position and change color after a delay
+            setTimeout(() => {
+                animatedBox.style.left = buttonRect.left + 'px';
+                animatedBox.style.top = buttonRect.bottom + 'px';
+                animatedBox.style.backgroundColor = getRandomColor();
+            }, 100);
+
+            // Hide the box after animation completes
+            setTimeout(() => {
+                animatedBox.style.opacity = 0;
+            }, 600);
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>
